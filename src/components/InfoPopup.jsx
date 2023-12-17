@@ -21,6 +21,10 @@ const renderedPopup = {
       Hi, I'm <span className="font-bold">Nimai</span> 👋
       <br />
       I'm a software developer and web enthusiast
+      <Link to={'/'} className="bg-slate-700 hover:bg-slate-900 transition text-white flex items-center justify-center px-4 py-2.5 rounded-md w-fit mx-auto translate-y-5 gap-2 shadow-md">
+        Pay me a coffee
+        <img src={arrow} alt="arrow" className='w-4 h-4 object-contain text-slate-900' />
+      </Link>
     </div>
   ),
   2: (
