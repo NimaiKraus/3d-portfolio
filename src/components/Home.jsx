@@ -12,18 +12,18 @@ const Home = () => {
   const [currentStage, setCurrentStage] = useState(1);
 
   const adjustIslandBasedOnScreenWidth = () => {
-    let screenScale = window.innerWidth < 768 ? [0.9, 0.9, 0.9] : [1, 1, 1];
-    let screenPosition = [0, -6.5, -43];
-    let rotation = [0.1, 4.7, 0];
+    let islandScale = window.innerWidth < 768 ? [0.9, 0.9, 0.9] : [1, 1, 1];
+    let islandPosition = [0, -6.5, -43];
+    let islandRotation = [0.1, 4.7, 0];
 
-    return [screenScale, screenPosition, rotation];
+    return [islandScale, islandPosition, islandRotation];
   };
 
   const adjustPlaneBasedOnScreenWidth = () => {
-    let screenScale = window.innerWidth < 768 ? [1.5, 1.5, 1.5] : [3, 3, 3];
-    let screenPosition = window.innerWidth < 768 ? [0, -1.5, 0] : [0, -4, -4];
+    let planeScale = window.innerWidth < 768 ? [1.5, 1.5, 1.5] : [3, 3, 3];
+    let planePosition = window.innerWidth < 768 ? [0, -1.5, 0] : [0, -4, -4];
 
-    return [screenScale, screenPosition];
+    return [planeScale, planePosition];
   };
 
   const [islandScale, islandPosition, islandRotation] =

@@ -5,9 +5,9 @@ import {arrow} from '../assets/icons'
 
 const Popup = ({text, linkPath, btnText}) => {
   return (
-    <div className='bg-blue-500/60 rounded-md px-4 py-2.5 text-white flex flex-col gap-3 text-center max-w-[50%] items-center font-bold backdrop-blur-[9px] shadow-md'>
+    <div className='bg-[#ddeaff99] backdrop-blur-[9px] rounded-md px-4 py-2.5 text-slate-800 flex flex-col gap-3 text-center max-w-[50%] items-center font-semibold shadow-md'>
       {text}
-      <Link to={linkPath} className="bg-white flex items-center justify-center text-slate-900 px-4 py-2.5 rounded-md w-fit gap-2 shadow-md">
+      <Link to={linkPath} className="bg-slate-700 hover:bg-slate-900 transition text-white flex items-center justify-center px-4 py-2.5 rounded-md w-fit mx-auto translate-y-5 gap-2 shadow-md">
         {btnText}
         <img src={arrow} alt="arrow" className='w-4 h-4 object-contain text-slate-900' />
       </Link>
@@ -17,7 +17,7 @@ const Popup = ({text, linkPath, btnText}) => {
 
 const renderedPopup = {
   1: (
-    <div className='bg-blue-500/60 rounded-md px-4 py-2.5 font-bold text-white text-center backdrop-blur-[9px] shadow-md'>
+    <div className='bg-[#ddeaff99] rounded-md px-4 py-2.5 font-medium text-slate-800 text-center backdrop-blur-[9px] shadow-md'>
       Hi, I'm <span className="font-bold">Nimai</span> 👋
       <br />
       I'm a software developer and web enthusiast
