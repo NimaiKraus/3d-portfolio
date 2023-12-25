@@ -1,16 +1,43 @@
-import React from "react";
-import myLogo from "../assets/images/myLogoWhite.png";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
+
+import myLogo from "../assets/images/myNewLogo-removebg-preview.png";
 
 const Navbar = () => {
+  const location = useLocation();
+  const shouldApplyWhiteBg =
+    location.pathname === "/about" || location.pathname === "/projects";
   return (
-    <nav className="w-full flex justify-between items-center py-3 px-4 shadow-sm text-white fixed top-0 z-10">
+    <nav className={`header ${shouldApplyWhiteBg && "bg-white"}`}>
       <Link to={"/"}>
-        <img src={myLogo} alt="my logo" className="w-24 object-contain" />
+        <img
+          src={myLogo}
+          alt="my logo"
+          className="w-fit h-[5rem] object-contain"
+        />
       </Link>
-      <div className="flex items-center gap-2">
-        <Link to={"/contacts"} className="font-semibold hover:scale-110 transition text-lg">Contatti</Link>
-        <Link to={'/'} className="font-semibold hover:scale-110 transition text-lg">Progetti</Link>
+      <div className="flex items-center gap-4">
+        <NavLink
+          to={"/about"}
+          className={({ isActive }) =>
+            `flex items-center gap-1 font-medium hover:scale-110 transition text-lg ${
+              isActive && "blue-gradient_text"
+            }`
+          }
+        >
+          <span className="material-symbols-outlined">account_circle</span>
+          About
+        </NavLink>
+        <NavLink
+          to={"/projects"}
+          className={({ isActive }) =>
+            `flex items-center gap-1 font-medium hover:scale-110 transition text-lg ${
+              isActive && "blue-gradient_text"
+            }`
+          }
+        >
+          <span className="material-symbols-outlined">work</span>
+          Projects
+        </NavLink>
       </div>
     </nav>
   );

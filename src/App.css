@@ -1,0 +1,9 @@
+.radial {
+    background: -webkit-radial-gradient(
+		center,
+		ellipse cover,
+		#fcfcfc 30%,
+		#f4f3f1 70%
+	);
+	background-color: #fcfcfc;
+}

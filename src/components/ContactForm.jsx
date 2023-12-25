@@ -1,5 +1,8 @@
 import { useState } from "react";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
+import { Canvas } from "@react-three/fiber";
+
+import Fox from "../models/Fox";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -8,25 +11,43 @@ const ContactForm = () => {
     message: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [currentAnimation, setCurrentAnimation] = useState("idle");
 
-  const sendMessage = async () => {
+  const sendMessage = async (e) => {
+    e.preventDefault();
+
     setIsLoading(true);
-    emailjs.send()
-    try {
-      const message = await client.sendAsync({
-        text: `${formData.name} ti ha contattato dicendo: ${formData.message}`,
-        from: formData.email,
-        to: 'nimai.kraus@gmail.com',
-        subject: 'email from portfolio site',
+    setCurrentAnimation("hit");
+
+    emailjs
+      .send(
+        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          to_name: "Nimai",
+          from_email: formData.email,
+          to_email: "nimai.kraus@gmail.com",
+          message: formData.message,
+        },
+        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+      )
+      .then(() => {
+        setTimeout(() => {
+          setCurrentAnimation("idle");
+          setIsLoading(false);
+          setFormData({
+            name: "",
+            email: "",
+            message: "",
+          });
+        }, [3000]);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.error(err);
       });
-      console.log(message);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-  
+  };
 
   const isButtonDisabled = () =>
     formData.email === "" ||
@@ -40,60 +61,116 @@ const ContactForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFocus = () => {};
-  const handleBlur = () => {};
+  const handleFocus = () => setCurrentAnimation("walk");
+  const handleBlur = () => setCurrentAnimation("idle");
 
   return (
-    <section className="relative h-screen w-full flex flex-col items-center justify-center gap-3 md:flex-row bg-[url('./src/assets/images/sky_bg.png')] bg-no-repeat bg-center bg-cover">
-      <div className="min-w-[40%] max-w-[70%] flex flex-col bg-[#ddeaff99] backdrop-blur-[9px] p-3 rounded-lg">
-        <span className="font-bold text-2xl">Let me a message</span>
+    <section className="relative flex lg:flex-row flex-col max-container">
+      {/* {alert.show && <Alert {...alert} />} */}
 
-        <form className="flex flex-col gap-2 mt-4" action="">
-          <label className="font-semibold mt-1">Name</label>
-          <input
-            className="p-2 rounded-md"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder="Jonh"
-          />
-          <label className="font-semibold mt-1">Email</label>
-          <input
-            className="p-2 rounded-md"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder="Jonh@gmail.com"
-          />
-          <label className="font-semibold mt-1">Message</label>
-          <textarea
-            className="p-2 rounded-md"
-            rows={4}
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder="Let me know how can I help you!"
-          />
+      <div className="flex-1 min-w-[50%] flex flex-col">
+        <h1 className="head-text">
+          Get in{' '}
+          <span className="blue-gradient_text font-semibold drop-shadow">
+            Touch
+          </span>
+        </h1>
+
+        <form
+          // ref={formRef}
+          onSubmit={sendMessage}
+          className="w-full flex flex-col gap-7 mt-14"
+        >
+          <label className="text-black-500 font-semibold">
+            Name
+            <input
+              type="text"
+              name="name"
+              className="input"
+              placeholder="John"
+              required
+              value={formData.name}
+              onChange={handleChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
+          </label>
+          <label className="text-black-500 font-semibold">
+            Email
+            <input
+              type="email"
+              name="email"
+              className="input"
+              placeholder="John@gmail.com"
+              required
+              value={formData.email}
+              onChange={handleChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
+          </label>
+          <label className="text-black-500 font-semibold">
+            Your Message
+            <textarea
+              name="message"
+              rows="4"
+              className="textarea"
+              placeholder="Write your thoughts here..."
+              value={formData.message}
+              onChange={handleChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
+          </label>
 
           <button
-            className="bg-slate-700 text-white font-semibold p-3 rounded-lg w-fit mx-auto translate-y-5 hover:bg-slate-900 transition"
             type="submit"
-            disabled={isButtonDisabled()}
-            onClick={sendMessage}
+            disabled={isButtonDisabled}
+            className="btn font-semibold"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           >
-            {isLoading ? "Sending..." : "Send message"}
+            {isLoading ? (
+              "Sending..."
+            ) : (
+              <span className="flex justify-center items-center gap-2">
+                Send message
+                <span className="material-symbols-outlined">send</span>
+              </span>
+            )}
           </button>
         </form>
       </div>
-      <h1>awweeee</h1>
+
+      <div className="lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]">
+        <Canvas
+          camera={{
+            position: [0, 0, 5],
+            fov: 75,
+            near: 0.1,
+            far: 1000,
+          }}
+        >
+          <directionalLight position={[0, 0, 1]} intensity={2.5} />
+          <ambientLight intensity={1} />
+          <pointLight position={[5, 10, 0]} intensity={2} />
+          <spotLight
+            position={[10, 10, 10]}
+            angle={0.15}
+            penumbra={1}
+            intensity={2}
+          />
+
+          {/* <Suspense fallback={<Loader />}> */}
+          <Fox
+            currentAnimation={currentAnimation}
+            position={[0.5, 0.35, 0]}
+            rotation={[12.629, -0.6, 0]}
+            scale={[0.5, 0.5, 0.5]}
+          />
+          {/* </Suspense> */}
+        </Canvas>
+      </div>
     </section>
   );
 };
