@@ -19,7 +19,7 @@ const Navbar = () => {
         <NavLink
           to={"/about"}
           className={({ isActive }) =>
-            `flex items-center gap-1 font-medium hover:scale-110 transition text-lg ${
+            `flex items-center gap-1 font-[550] hover:scale-110 transition text-lg ${
               isActive && "blue-gradient_text"
             }`
           }
@@ -30,7 +30,7 @@ const Navbar = () => {
         <NavLink
           to={"/projects"}
           className={({ isActive }) =>
-            `flex items-center gap-1 font-medium hover:scale-110 transition text-lg ${
+            `flex items-center gap-1 font-[550] hover:scale-110 transition text-lg ${
               isActive && "blue-gradient_text"
             }`
           }
